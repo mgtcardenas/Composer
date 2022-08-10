@@ -1,10 +1,10 @@
 #!/bin/bash
 #title           :iamValidationNoEnvironment.sh
-#description     :This script will validate composer IAM permissions an environment in error state
+#description     :This script will validate composer IAM permissions without requiring an environment in failed state
 #owner           :mgtca
 #contributor     :arunjvattoly, mgtca
 #date            :Aug 01, 2022
-#version         :0.1
+#version         :1.1 | Arun | initial commit to verify composer 1 & 2 permission 1.2 | Marco | Implemented validations for non existing composer instance
 #==============================================================================
 #color theme
 red=$'\e[31m'
