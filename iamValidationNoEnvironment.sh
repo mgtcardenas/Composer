@@ -3,8 +3,8 @@
 #description     :This script will validate composer IAM permissions without requiring an environment in failed state
 #owner           :mgtca
 #contributor     :arunjvattoly, mgtca
-#date            :Aug 01, 2022
-#version         :1.1 | Arun | initial commit to verify composer 1 & 2 permission 1.2 | Marco | Implemented validations for non existing composer instance
+#version         :1.1 | Arun  | Dec 07 2021 | initial commit to verify composer 1 & 2 IAM permissions
+#                :1.2 | Marco | Aug 23 2022 | implemented validations for non existing composer instance
 #==============================================================================
 #color theme
 red=$'\e[31m'
@@ -41,8 +41,10 @@ if [[ $env = 'SERVICE' ]]; then
 read -p 'Environment service account: ' service_account
 project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
 default_sa=$project_number-compute@developer.gserviceaccount.com
-read -p 'Private IP Env.? (True/False) Careful, option is case sensitive: ' is_private
-read -p 'Env. Image Version (e.g. composer-2.0.22-airflow-2.2.5): ' version
+read -p 'Private IP Env.? (True or False) press Enter for default True: ' is_private
+is_private=${is_private:-True}
+read -p 'Composer Version (1 or 2) press Enter for default 2: ' version
+version=${version:-2}
 host_project_id=`echo $subnetwork | awk -F'/' '{print $2}'`
  if [ $project_id != $host_project_id ]; then
     is_sharedVPC='True'
@@ -99,7 +101,7 @@ echo ==============================================
 echo
 
 #### Checking Composer 2 specific GCE permission ####
-if [[ $version == composer-2* && $default_sa != $service_account ]];then
+if [[ $version == 2 && $default_sa != $service_account ]];then
 echo "In Auto pilot GKE it is necessary to have active default Compute Engine SA: $default_sa"
 echo ------------configured roles------------------
 gcloud projects get-iam-policy $project_id  \
@@ -114,7 +116,7 @@ fi
 echo "Composer Agent Service Account: service-$project_number@cloudcomposer-accounts.iam.gserviceaccount.com"
 echo "Need 'roles/composer.serviceAgent'"
 condition="roles/composer.serviceAgent"
-if [[ $version == composer-2* ]];then
+if [[ $version == 2 ]];then
 echo "Need 'roles/composer.ServiceAgentV2Ext' ( Cloud Composer v2 API Service Agent Extension) for Composer 2 instances"
 condition="roles/composer.serviceAgent|roles/composer.ServiceAgentV2Ext"
 fi
