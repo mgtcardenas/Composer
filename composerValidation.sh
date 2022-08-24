@@ -1,5 +1,5 @@
 #!/bin/bash
-#title           :iamValidationNoEnvironment.sh
+#title           :composerValidation.sh
 #description     :This script will validate composer IAM permissions without requiring an environment in failed state
 #owner           :mgtca
 #contributor     :arunjvattoly, mgtca
@@ -99,18 +99,6 @@ gcloud projects get-iam-policy $project_id  \
 --filter="bindings.members:$service_account"  | GREP_COLOR='01;32' egrep --color -E $condition'|$'
 echo ==============================================
 echo
-
-#### Checking Composer 2 specific GCE permission ####
-if [[ $version == 2 && $default_sa != $service_account ]];then
-echo "In Auto pilot GKE it is necessary to have active default Compute Engine SA: $default_sa"
-echo ------------configured roles------------------
-gcloud projects get-iam-policy $project_id  \
---flatten="bindings[].members" \
---format='table[box,no-heading](bindings.role)' \
---filter="bindings.members:$default_sa"
-echo ==============================================
-echo
-fi
 
 #### Checking Composer Agent Service Account ####
 echo "Composer Agent Service Account: service-$project_number@cloudcomposer-accounts.iam.gserviceaccount.com"
