@@ -10,7 +10,7 @@
 * Download the latest script (iamValidationNoEnvironment.sh)
 * Make the script executable by running,
   ```
-  chmod +x iamValidationNoEnvironment.sh
+  chmod +x composerValidation.sh
   ```
 * Log into the GCP project having failed composer instance,
   ```
@@ -18,7 +18,7 @@
   ```
 * Execute the bash script by running
   ```
-  ./iamValidationNoEnvironment.sh
+  ./composerValidation.sh
   ```
 Follow instruction and enter the details as prompted.
 
