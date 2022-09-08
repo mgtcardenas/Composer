@@ -22,4 +22,4 @@
   ```
 Follow instruction and enter the details as prompted.
 
-Note: When running in the service project this script will not provide network details (like [iamValidation.sh](https://github.com/arunjvattoly/Composer/blob/main/iamValidation.sh) does, as it is not possible to run the command `gcloud composer environments describe <composer-env> –-location <location> --format="table(config.privateEnvironmentConfig)"` in case the environment is private
+Note: When running in the service project this script will not provide network details, as it is not possible to run the command `gcloud composer environments describe <composer-env> –-location <location> --format="table(config.privateEnvironmentConfig)"` in case the environment is private
